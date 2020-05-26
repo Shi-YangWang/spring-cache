@@ -7,6 +7,7 @@ import com.bunny.spring.framework.service.MyBatisDaoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -26,6 +27,33 @@ public class SKUController {
         try {
             Product product = service.queryById(id);
             return product.getName();
+        } catch (Exception e) {
+            return "500 Not Found";
+        }
+    }
+
+
+    @GetMapping("/query/jdbc/update")
+    public String updateJdbc(@RequestParam("name") String name, @RequestParam("description") String description, @RequestParam("price") Long price) {
+        try {
+            service.update(
+                    new Product().
+                            setName(name).
+                            setDescription(description)
+                            .setPrice(price)
+            );
+            return "200 OK";
+        } catch (Exception e) {
+            return "500 Not Found";
+        }
+    }
+
+
+    @GetMapping("/query/jdbc/evict")
+    public String evictJdbc() {
+        try {
+            service.evict();
+            return "200 OK";
         } catch (Exception e) {
             return "500 Not Found";
         }

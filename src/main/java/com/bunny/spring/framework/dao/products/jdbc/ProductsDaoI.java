@@ -44,4 +44,20 @@ public class ProductsDaoI implements ProductsDao {
             throw new Exception();
         }
     }
+
+
+    public void update(Product product) throws Exception {
+        StringBuilder sb = new StringBuilder("INSERT INTO `products`(name, description, price) VALUES(\"")
+                .append(product.getName())
+                .append("\", \"")
+                .append(product.getDescription())
+                .append("\", ")
+                .append(product.getPrice())
+                .append(")");
+        try {
+            template.execute(sb.toString());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 }
